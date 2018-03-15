@@ -1,0 +1,1856 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <title>NAVA Inventory</title>
+    <link rel="stylesheet" href="css/main.css" />
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link href="css/bootstrap-treeview.min.css" rel="stylesheet">
+    <link rel="icon" type="image/png" href="images/logo_title.png">
+    <link rel="stylesheet" href="css/jquery.mobile-1.4.5.css">
+
+    <script src="js/angular.min.js"></script>
+    <link rel="stylesheet" href="css/alertify.core.css" />
+    <link rel="stylesheet" href="css/alertify.default.css" id="toggleCSS" />
+
+
+    <meta charset="utf-8">
+</head>
+
+<body>
+
+<div class="app" style="display:none">
+    <div id="deviceready" class="blink">
+        <p class="event listening">Connecting to Device</p>
+        <p class="event received" style="display:none">Device is Ready</p>
+
+    </div>
+</div>
+<!--////////////////////////////////////////////////////////////page one ////////////////////////////////////////////////////////////////-->
+<div data-role="page" id="pageone">
+    <div data-role="none" id="header">
+    </div>
+
+    <div data-role="main" class="ui-content">
+        <div id="form-main">
+
+            <div id="form-div">
+                <img src="images/inventory-logo.png" class="logo" onclick="fakelogin();">
+
+                <br><br>
+
+
+                <p class="username">
+                    <input name="username" type="text"
+                           class="validate[required,custom[onlyLetter],length[0,100]] feedback-input"
+                           placeholder="Username" id="username" data-role="none"/>
+                </p>
+                <p class="password">
+                    <input name="passwd" type="password"
+                           class="validate[required,custom[password]] feedback-input"
+                           id="passwd" placeholder="Password" data-role="none"/>
+                </p>
+
+                <div class="submit">
+                    <input type="submit" class="button-green" value="login" data-role="none" onclick="cnklogin()"/>
+                    <div class="ease"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div data-role="footer" id="footer">
+    </div>
+
+</div>
+
+
+
+<!--////////////////////////////////////////////////////////////page one ////////////////////////////////////////////////////////////////-->
+<div data-role="page" id="pagelogin">
+    <div data-role="none" id="header">
+    </div>
+
+    <div data-role="main" class="ui-content">
+        <div id="form-main">
+
+            <div id="form-div">
+                <img src="images/inventory-logo.png" class="logo" onclick="login_url();">
+
+                <br><br>
+                <div id="show_user"></div>
+                <br>
+                <p class="password">
+                    <input name="passwds" type="password"
+                           class="validate[required,custom[password]] feedback-input"
+                           id="passwds" placeholder="Password" data-role="none"/>
+                </p>
+
+                <div class="submit">
+                    <input type="submit" class="button-green" value="login" data-role="none" onclick="cnkloginscan()"/>
+                    <div class="ease"></div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div data-role="footer" id="footer">
+    </div>
+
+</div>
+<!--////////////////////////////////////////////////////////////page two ////////////////////////////////////////////////////////////////-->
+
+
+
+
+<div data-role="page" id="pagetwo">
+    <div data-role="none" id="header">
+        <a href="#myPanel_main" data-role="none"><img src="images/grid.png" class="open_panel"></a>
+    </div>
+
+    <div data-role="main" class="ui-content" id="main">
+        <h1 class="title">Main</h1>
+        <div class="row">
+            <div class="col-xs-6 col-md-6"><a href="javascript:persi(1)" data-transition="slidefade">
+                <div><img src="images/pr2.png" class="main_menu"><br><b>PR(1)</b></div>
+            </a></div>
+            <div class="col-xs-6 col-md-6"><a href="#receive" data-transition="slidefade">
+                <div><img src="images/product-receive.png" class="main_menu"><br><b>รับสินค้า(2)</b>
+                </div>
+            </a></div>
+        </div>
+        <div class="row">
+            <div class="col-xs-6 col-md-6"><a href="javascript:persi(3)" data-transition="slidefade">
+                <div><img src="images/stock1.png" class="main_menu"><br><b>นับสต๊อกสินค้า(3)</b></div>
+            </a></div>
+            <div class="col-xs-6 col-md-6"><a href="#transfer" data-transition="slidefade">
+                <div><img src="images/transfer1.png" class="main_menu"><br><b>โอนสินค้า(4)</b></div>
+            </a></div>
+        </div>
+        <div class="row">
+            <div class="col-xs-6 col-md-6"><a href="javascript:persi(12)" data-transition="slidefade">
+                <div><img src="images/setting.png" class="main_menu"><br><b>setting(5)</b></div>
+            </a></div>
+            <div class="col-xs-6 col-md-6"><a href="javascript:persi(11)" data-transition="slidefade">
+                <div><img src="images/searchitem.png" class="main_menu"><br><b>searchitem(6)</b></div>
+            </a>
+            </div>
+        </div>
+    </div>
+
+
+    <div data-role="footer" id="footer" data-enhance="false">
+
+        <label style="padding:2% 0 0 5%;"><i>Inventory V0.2  BY IT nopadol</i></label>
+
+    </div>
+    <div data-role="panel" id="myPanel_main" data-display="overlay">
+        <h2>Overlay Panel</h2><hr>
+
+        <div id="tree" class="tree"></div>
+    </div>
+</div>
+<!--//////////////////////////////////////////////////////////// transfer ////////////////////////////////////////////////////////////////-->
+<div data-role="page" id="transfer">
+    <div data-role="none" id="header" >
+        <a href="#myPanel_tran"  data-role="none"><img src="images/grid.png" class="open_panel"></a>
+    </div>
+
+    <div  data-role="main" class="ui-content" id="main">
+        <h1 class="title">โอนสินค้า</h1>
+        <a href="#" onclick="search_tf();" class="ui-btn ui-corner-all">แสดงใบโอนสินค้า</a>
+        <div class="row">
+            <div class="col-xs-6 col-md-6" onclick="wh_type_store();"><a href="#transferup" data-transition="slidefade"><div><img src="images/uptruck.png"  class="main_menu"><br><b>ยกของขึ้นรถ(1)</b></div></a></div>
+            <div class="col-xs-6 col-md-6" onclick="wh_type_store();"><a href="#transferdown" data-transition="slidefade"><div><img src="images/downtruck.png"  class="main_menu"><br><b>ยกของลงรถ(2)</b></div></a></div>
+        </div>
+        <div class="row">
+            <div class="col-xs-6 col-md-6"><a href="javascript:persi(7)" data-transition="slidefade"><div><img src="images/damage.png"  class="main_menu"><br><b>โอนสินค้าเสียหาย(3)</b></div></a></div>
+            <div class="col-xs-6 col-md-6"><a href="javascript:persi(8)" data-transition="slidefade"><div><img src="images/t_isp.png"  class="main_menu"><br><b>โอนเข้าคลัง ISP(4)</b></div></a></div>
+        </div>
+        <div class="row">
+            <div class="col-xs-6 col-md-6"><a href="javascript:persi(9)" data-transition="slidefade"><div><img src="images/vender.png"  class="main_menu"><br><b>โอนสินค้าคืน Vender(5)</b></div></a></div>
+            <div class="col-xs-6 col-md-6"><a href="javascript:persi(10)" data-transition="slidefade"><div><img src="images/transfer1.png"  class="main_menu"><br><b>โอนแบบปกติ(6)</b></div></a></div>
+        </div>
+        <br>
+        <br>
+    </div>
+
+
+
+    <div data-role="footer" id="footer" data-enhance="false">
+        <div data-role="navbar">
+            <ul>
+                <li><a href="#pagetwo" class="ui-btn-active ui-state-persist" data-icon="home" id="footer-nav" data-transition="slidefade" data-direction="reverse">หน้าหลัก</a></li>
+            </ul>
+        </div>
+    </div>
+    <div data-role="panel" id="myPanel_tran" data-display="overlay">
+        <h2>Overlay Panel</h2><hr>
+
+        <div id="tree" class="tree"></div>
+    </div>
+</div><!--//////////////////////////////////////////////////////////// transferlist ////////////////////////////////////////////////////////////////-->
+<div data-role="page" id="transferlist">
+    <div data-role="none" id="header" >
+        <a href="#myPanel_transferlist"  data-role="none"><img src="images/grid.png" class="open_panel"></a>
+    </div>
+
+    <div  data-role="main" class="ui-content" id="main">
+        <h2 class="sub_title">แสดงใบโอนสินค้า</h2>
+
+        <div id="show_tflist"></div>
+
+    </div>
+
+    <div data-role="footer" id="footer" data-enhance="false">
+        <div data-role="navbar">
+            <ul>
+                <li><a href="#transfer" class="ui-btn-active ui-state-persist" data-icon="carat-l" id="footer-nav" data-transition="slidefade" data-direction="reverse">ย้อนกลับ</a></li>
+            </ul>
+        </div>
+    </div>
+    <div data-role="panel" id="myPanel_transferlist" data-display="overlay">
+        <h2>Overlay Panel</h2><hr>
+
+        <div id="tree" class="tree"></div>
+    </div>
+</div>
+
+<!--//////////////////////////////////////////////////////////// transfer_detail ////////////////////////////////////////////////////////////////-->
+<div data-role="page" id="transfer_detail">
+    <div data-role="none" id="header" >
+        <a href="#myPanel_transfer_detail"  data-role="none"><img src="images/grid.png" class="open_panel"></a>
+    </div>
+
+    <div  data-role="main" class="ui-content" id="main">
+        <h2 class="sub_title">ใบโอนสินค้า</h2>
+        <p style="color:red;text-align:center;">**แสกนสินค้าที่ต้องการโอน**</p>
+        <div id="show_hdetail_tf"></div>
+        <div id="show_detail_tf"></div>
+
+
+    </div>
+
+    <div data-role="footer" id="footer" data-enhance="false">
+        <div data-role="navbar">
+            <ul>
+                <li onclick="checkstatus();"><a href="#" class="ui-btn-active ui-state-persist" data-icon="carat-l" id="footer-nav" data-transition="slidefade" data-direction="reverse">ย้อนกลับ</a></li>
+            </ul>
+        </div>
+    </div>
+    <div data-role="panel" id="myPanel_transfer_detail" data-display="overlay">
+        <h2>Overlay Panel</h2><hr>
+
+        <div id="tree" class="tree"></div>
+    </div>
+</div>
+<!--//////////////////////////////////////////////////////////// transfer_details ////////////////////////////////////////////////////////////////-->
+<div data-role="page" id="transfer_details">
+    <div data-role="none" id="header" >
+        <a href="#myPanel_transfer_details"  data-role="none"><img src="images/grid.png" class="open_panel"></a>
+    </div>
+
+    <div  data-role="main" class="ui-content" id="main">
+        <h2 class="sub_title">ใบโอนสินค้า</h2>
+        <div id="show_hdetail_tfs"></div>
+        <div id="show_detail_tfs"></div>
+
+
+    </div>
+
+    <div data-role="footer" id="footer" data-enhance="false">
+        <div data-role="navbar">
+            <ul>
+                <li><a href="#transferlist" class="ui-btn-active ui-state-persist" data-icon="carat-l" id="footer-nav" data-transition="slidefade" data-direction="reverse">ย้อนกลับ</a></li>
+            </ul>
+        </div>
+    </div>
+    <div data-role="panel" id="myPanel_transfer_details" data-display="overlay">
+        <h2>Overlay Panel</h2><hr>
+
+        <div id="tree" class="tree"></div>
+    </div>
+</div>
+<!--//////////////////////////////////////////////////////////// transfer_item ////////////////////////////////////////////////////////////////-->
+<div data-role="page" id="transfer_item">
+    <div data-role="none" id="header" >
+        <a href="#myPanel_tranup1"  data-role="none"><img src="images/grid.png" class="open_panel"></a>
+    </div>
+
+    <div  data-role="main" class="ui-content" id="main">
+        <h2 class="sub_title">รายละเอียดสินค้า</h2>
+        <p style="color:red; text-align:center">**แสกนสินค้าที่ต้องการโอน**</p>
+        <div id="item_show_edit"></div>
+        <input type="number" name="amount_edit_item" id="amount_edit_item" placeholder="จำนวน">
+        <input type="hidden" id="stock_show_edit">
+
+
+
+    </div>
+
+    <div data-role="footer" id="footer" data-enhance="false">
+        <div data-role="navbar">
+            <ul>
+                <li><a href="#transfer_detail" class="ui-btn-active ui-state-persist" data-icon="delete" id="footer-nav" data-transition="slidefade" data-direction="reverse">ยกเลิก</a></li>
+                <li onclick="transfer_edit();"><a href="#" class="ui-btn-active ui-state-persist" data-icon="check" id="footer-nav">ตกลง</a></li>
+            </ul>
+        </div>
+    </div>
+    <div data-role="panel" id="myPanel_tranup1" data-display="overlay">
+        <h2>Overlay Panel</h2><hr>
+
+        <div id="tree" class="tree"></div>
+    </div>
+</div>
+<!--//////////////////////////////////////////////////////////// transferup ////////////////////////////////////////////////////////////////-->
+<div data-role="page" id="transferup">
+    <div data-role="none" id="header" >
+        <a href="#myPanel_tranup"  data-role="none"><img src="images/grid.png" class="open_panel"></a>
+    </div>
+
+    <div  data-role="main" class="ui-content" id="main">
+        <h2 class="sub_title">ยกของขึ้นรถ</h2>
+        <label>เลือกคลังต้นทาง</label>
+        <div id="whtypestoreup"></div>
+
+        <label>เลือกชั้นเก็บต้นทาง</label>
+        <div id="shtypestoreup"></div>
+
+        <label>เลือกคลังปลายทาง</label>
+        <div id="whtypevanup"></div>
+
+        <label>เลือกชั้นเก็บปลายทาง</label>
+        <div id="shtypevanup"></div>
+
+        <div id="show_tflist"></div>
+
+    </div>
+
+    <div data-role="footer" id="footer" data-enhance="false">
+        <div data-role="navbar">
+            <ul>
+                <li><a href="#transfer" class="ui-btn-active ui-state-persist" data-icon="carat-l" id="footer-nav" data-transition="slidefade" data-direction="reverse">ย้อนกลับ</a></li>
+                <li onclick="wh_type_store();"><a href="#" class="ui-btn-active ui-state-persist" data-icon="refresh" id="footer-nav" data-transition="slidefade">refresh</a></li>
+                <li onclick="tranfer_up_select();"><a href="#" class="ui-btn-active ui-state-persist" data-icon="action" id="footer-nav" data-transition="slidefade">โอนสินค้า</a></li>
+            </ul>
+        </div>
+    </div>
+    <div data-role="panel" id="myPanel_tranup" data-display="overlay">
+        <h2>Overlay Panel</h2><hr>
+
+        <div id="tree" class="tree"></div>
+    </div>
+</div>
+<!--//////////////////////////////////////////////////////////// transferup_detail ////////////////////////////////////////////////////////////////-->
+<div data-role="page" id="transferup_detail">
+    <div data-role="none" id="header" >
+        <a href="#myPanel_transferup_detail"  data-role="none"><img src="images/grid.png" class="open_panel"></a>
+    </div>
+
+    <div  data-role="main" class="ui-content" id="main">
+        <h2 class="sub_title">ยกของขึ้นรถ</h2>
+        <p style="color:red;text-align:center;">**แสกนสินค้าที่ต้องการโอน**</p>
+        <div id="show_hdetail_tfup"></div>
+        <div id="show_detail_tfup"></div>
+
+
+    </div>
+
+    <div data-role="footer" id="footer" data-enhance="false">
+        <div data-role="navbar">
+            <ul>
+                <li onclick="checkstatus();"><a href="#" class="ui-btn-active ui-state-persist" data-icon="carat-l" id="footer-nav" data-transition="slidefade" data-direction="reverse">ย้อนกลับ</a></li>
+                <li onclick="save_down();"><a href="#" class="ui-btn-active ui-state-persist" data-icon="check" id="footer-nav" data-transition="slidefade">บันทึก</a></li>
+            </ul>
+        </div>
+    </div>
+    <div data-role="panel" id="myPanel_transferup_detail" data-display="overlay">
+        <h2>Overlay Panel</h2><hr>
+
+        <div id="tree" class="tree"></div>
+    </div>
+</div>
+<!--//////////////////////////////////////////////////////////// transferup_item ////////////////////////////////////////////////////////////////-->
+<div data-role="page" id="transferup_item">
+    <div data-role="none" id="header" >
+        <a href="#myPanel_tranup1"  data-role="none"><img src="images/grid.png" class="open_panel"></a>
+    </div>
+
+    <div  data-role="main" class="ui-content" id="main">
+        <h2 class="sub_title">ยกของขึ้นรถ</h2>
+        <p style="color:red; text-align:center">**แสกนสินค้าที่ต้องการโอน**</p>
+        <div id="item_show_up"></div>
+        <input type="number" name="amount_up_item" id="amount_up_item" placeholder="จำนวน">
+        <input type="hidden" id="stock_show_up">
+
+
+
+    </div>
+
+    <div data-role="footer" id="footer" data-enhance="false">
+        <div data-role="navbar">
+            <ul>
+                <li onclick="check_cancel();"><a href="#" class="ui-btn-active ui-state-persist" data-icon="delete" id="footer-nav" data-transition="slidefade" data-direction="reverse">ยกเลิก</a></li>
+                <li onclick="submit_transferup();"><a href="#" class="ui-btn-active ui-state-persist" data-icon="check" id="footer-nav">ตกลง</a></li>
+            </ul>
+        </div>
+    </div>
+    <div data-role="panel" id="myPanel_tranup1" data-display="overlay">
+        <h2>Overlay Panel</h2><hr>
+
+        <div id="tree" class="tree"></div>
+    </div>
+</div>
+<!--//////////////////////////////////////////////////////////// transferdown ////////////////////////////////////////////////////////////////-->
+<div data-role="page" id="transferdown">
+    <div data-role="none" id="header" >
+        <a href="#myPanel_trandown"  data-role="none"><img src="images/grid.png" class="open_panel"></a>
+    </div>
+
+    <div  data-role="main" class="ui-content" id="main">
+        <h2 class="sub_title">ยกของลงรถ</h2>
+
+        <label>เลือกคลังต้นทาง</label>
+        <div  id="whtypevandown"></div>
+
+        <label>เลือกชั้นเก็บต้นทาง</label>
+        <div id="shtypevandown"></div>
+
+
+        <label>เลือกคลังปลายทาง</label>
+        <div  id="whtypestoredown"></div>
+
+        <label>เลือกชั้นเก็บปลายทาง</label>
+        <div id="shtypestoredown"></div>
+
+
+
+    </div>
+
+    <div data-role="footer" id="footer" data-enhance="false">
+        <div data-role="navbar">
+            <ul>
+                <li><a href="#transfer" class="ui-btn-active ui-state-persist" data-icon="carat-l" id="footer-nav" data-transition="slidefade" data-direction="reverse">ย้อนกลับ</a></li>
+                <li onclick="wh_type_store();"><a href="#" class="ui-btn-active ui-state-persist" data-icon="refresh" id="footer-nav" data-transition="slidefade">refresh</a></li>
+                <li onclick="tranfer_down_select();"><a href="#" class="ui-btn-active ui-state-persist" data-icon="action" id="footer-nav" data-transition="slidefade">โอนสินค้า</a></li>
+            </ul>
+        </div>
+    </div>
+    <div data-role="panel" id="myPanel_trandown" data-display="overlay">
+        <h2>Overlay Panel</h2><hr>
+
+        <div id="tree" class="tree"></div>
+    </div>
+</div>
+<!--//////////////////////////////////////////////////////////// transferdown_detail ////////////////////////////////////////////////////////////////-->
+<div data-role="page" id="transferdown_detail">
+    <div data-role="none" id="header" >
+        <a href="#myPanel_transferdown_detail"  data-role="none"><img src="images/grid.png" class="open_panel"></a>
+    </div>
+
+    <div  data-role="main" class="ui-content" id="main">
+        <h2 class="sub_title">ยกของลงรถ</h2>
+        <p style="color:red;text-align:center;">**แสกนสินค้าที่ต้องการโอน**</p>
+        <div id="show_hdetail_tfdown"></div>
+        <div id="show_detail_tfdown"></div>
+
+
+    </div>
+
+    <div data-role="footer" id="footer" data-enhance="false">
+        <div data-role="navbar">
+            <ul>
+                <li onclick="checkstatus();"><a href="#" class="ui-btn-active ui-state-persist" data-icon="carat-l" id="footer-nav" data-transition="slidefade" data-direction="reverse">ย้อนกลับ</a></li>
+                <li onclick="save_down();"><a href="#" class="ui-btn-active ui-state-persist" data-icon="check" id="footer-nav" data-transition="slidefade">บันทึก</a></li>
+            </ul>
+        </div>
+    </div>
+    <div data-role="panel" id="myPanel_transferdown_detail" data-display="overlay">
+        <h2>Overlay Panel</h2><hr>
+
+        <div id="tree" class="tree"></div>
+    </div>
+</div>
+<!--//////////////////////////////////////////////////////////// transferdown_item ////////////////////////////////////////////////////////////////-->
+<div data-role="page" id="transferdown_item">
+    <div data-role="none" id="header" >
+        <a href="#myPanel_trandown1"  data-role="none"><img src="images/grid.png" class="open_panel"></a>
+    </div>
+
+    <div  data-role="main" class="ui-content" id="main">
+        <h2 class="sub_title">ยกของลงรถ</h2>
+        <p style="color:red; text-align:center">**แสกนสินค้าที่ต้องการโอน**</p>
+
+        <div id="item_show_down"></div>
+        <input type="hidden" id="stock_show_down">
+        <input type="number" name="amount_down_item" id="amount_down_item" placeholder="จำนวน">
+
+
+    </div>
+
+    <div data-role="footer" id="footer" data-enhance="false">
+        <div data-role="navbar">
+            <ul>
+                <li onclick="check_cancel();"><a href="#" class="ui-btn-active ui-state-persist" data-icon="delete" id="footer-nav" data-transition="slidefade" data-direction="reverse">ยกเลิก</a></li>
+                <li onclick="submit_transferdown();"><a href="#" class="ui-btn-active ui-state-persist" data-icon="check" id="footer-nav" data-transition="slidefade">ตกลง</a></li>
+            </ul>
+        </div>
+    </div>
+    <div data-role="panel" id="myPanel_trandown1" data-display="overlay">
+        <h2>Overlay Panel</h2><hr>
+
+        <div id="tree" class="tree"></div>
+    </div>
+</div>
+<!--//////////////////////////////////////////////////////////// transfer_damage ////////////////////////////////////////////////////////////////-->
+<div data-role="page" id="transfer_damage">
+    <div data-role="none" id="header">
+        <a href="#myPanel_trandamage" data-role="none"><img src="images/grid.png" class="open_panel"></a>
+    </div>
+
+    <div data-role="main" class="ui-content" id="main">
+        <h2 class="sub_title">โอนสินค้าเข้าคลัง DAMAGE</h2>
+        <hr class="hr">
+        <p>เลือกคลังต้นทาง :</p>
+        <div id="wh_dmgfrom"></div>
+        <p>เลือกชั้นเก็บต้นทาง :</p>
+        <div id="shdmg_from"></div>
+        <p>เลือกคลังปลายทาง :</p>
+        <div id="wh_dmg"></div>
+        <p>เลือกชั้นเก็บ Damage ปลายทาง :</p>
+
+        <div id="shdmg"></div>
+
+
+    </div>
+    <div data-role="footer" id="footer" data-enhance="false">
+        <div data-role="navbar">
+            <ul>
+                <li><a href="#transfer" class="ui-btn-active ui-state-persist" data-icon="carat-l" id="footer-nav" data-transition="slidefade" data-direction="reverse">ย้อนกลับ</a></li>
+                <li onclick="wh_dmg_from();"><a href="#" class="ui-btn-active ui-state-persist" data-icon="refresh" id="footer-nav" data-transition="slidefade">refresh</a></li>
+                <li onclick="transfer_dmg();"><a href="#" class="ui-btn-active ui-state-persist" data-icon="action" id="footer-nav" data-transition="slidefade">โอนสินค้า</a></li>
+            </ul>
+        </div>
+
+    </div>
+    <div data-role="panel" id="myPanel_trandamage" data-display="overlay">
+        <h2>Overlay Panel</h2>
+        <hr>
+        <div id="tree" class="tree"></div>
+    </div>
+</div>
+<!--//////////////////////////////////////////////////////////// transfer_damage_item ////////////////////////////////////////////////////////////////-->
+<div data-role="page" id="transfer_damage_item">
+    <div data-role="none" id="header">
+        <a href="#myPanel_trandamage1" data-role="none"><img src="images/grid.png" class="open_panel"></a>
+    </div>
+
+    <div data-role="main" class="ui-content" id="main">
+        <h2 class="sub_title">โอนสินค้าเข้าคลัง DAMAGE</h2>
+        <hr class="hr">
+        <div id="item_show_d"></div>
+        <input type="number" id="amount_damage">
+        <input type="hidden" id="stock_show_d">
+
+    </div>
+    <div data-role="footer" id="footer" data-enhance="false">
+        <div data-role="navbar">
+            <ul>
+                <li onclick="check_cancel_damage();"><a href="#" class="ui-btn-active ui-state-persist" data-icon="delete" id="footer-nav" data-transition="slidefade" data-direction="reverse">ยกเลิก</a></li>
+                <li onclick="submit_transfer_damage();"><a href="#" class="ui-btn-active ui-state-persist" data-icon="check" id="footer-nav" data-transition="slidefade">ตกลง</a></li>
+            </ul>
+        </div>
+    </div>
+    <div data-role="panel" id="myPanel_trandamage1" data-display="overlay">
+        <h2>Overlay Panel</h2>
+        <hr>
+        <div id="tree" class="tree"></div>
+    </div>
+</div>
+<!--//////////////////////////////////////////////////////////// transfer_damage_detail ////////////////////////////////////////////////////////////////-->
+<div data-role="page" id="transfer_damage_detail">
+    <div data-role="none" id="header">
+        <a href="#myPanel_transfer_damage_detail" data-role="none"><img src="images/grid.png" class="open_panel"></a>
+    </div>
+
+    <div data-role="main" class="ui-content" id="main">
+        <h2 class="sub_title">โอนสินค้าเสียหาย</h2>
+        <hr class="hr">
+
+        <p style="color:red;text-align:center;">**แสกนสินค้าที่ต้องการโอน**</p>
+        <div id="show_hdetail_tfd"></div>
+        <div id="show_detail_tfd"></div>
+    </div>
+    <div data-role="footer" id="footer" data-enhance="false">
+        <div data-role="navbar">
+            <ul>
+                <li onclick="checkstatus_damage();"><a href="#" class="ui-btn-active ui-state-persist" data-icon="carat-l" id="footer-nav" data-transition="slidefade" data-direction="reverse">ย้อนกลับ</a></li>
+                <li onclick="save_damage();"><a href="#" class="ui-btn-active ui-state-persist" data-icon="check" id="footer-nav">บันทึก</a></li>
+            </ul>
+        </div>
+    </div>
+    <div data-role="panel" id="myPanel_transfer_damage_detail" data-display="overlay">
+        <h2>Overlay Panel</h2>
+        <hr>
+        <div id="tree" class="tree"></div>
+    </div>
+</div>
+<!--//////////////////////////////////////////////////////////// isp ////////////////////////////////////////////////////////////////-->
+
+<div data-role="page" id="transfer_isp">
+    <div data-role="none" id="header">
+        <a href="#myPanel_tranisp" data-role="none"><img src="images/grid.png" class="open_panel"></a>
+    </div>
+
+    <div data-role="main" class="ui-content" id="main">
+        <h2 class="sub_title">โอนสินค้าเข้าคลัง ISP</h2>
+        <hr class="hr">
+
+        <a href="#transfer_isp_item" class="ui-btn">stockcount 1 | 10item </a>
+        <a href="#transfer_isp_item" class="ui-btn">stockcount 2 | 13item </a>
+        <a href="#transfer_isp_item" class="ui-btn">stockcount 3 | 15item </a>
+        <br>
+
+
+        <fieldset data-role="controlgroup">
+            <legend>summery</legend>
+            <p>...........................................</p>
+
+        </fieldset>
+    </div>
+    <div data-role="footer" id="footer" data-enhance="false">
+        <div data-role="navbar">
+            <ul>
+                <li><a href="#transfer" class="ui-btn-active ui-state-persist" data-icon="carat-l" id="footer-nav" data-transition="slidefade" data-direction="reverse">ย้อนกลับ</a></li>
+                <li onclick="xxxx()"><a href="#" class="ui-btn-active ui-state-persist" data-icon="check" id="footer-nav" data-transition="slidefade">บันทึก</a></li>
+            </ul>
+        </div>
+    </div>
+    <div data-role="panel" id="myPanel_tranisp" data-display="overlay">
+        <h2>Overlay Panel</h2>
+        <hr>
+        <div id="tree" class="tree"></div>
+    </div>
+</div>
+<!--//////////////////////////////////////////////////////////// isp item ////////////////////////////////////////////////////////////////-->
+
+<div data-role="page" id="transfer_isp_item">
+    <div data-role="none" id="header">
+        <a href="#myPanel_tranisp1" data-role="none"><img src="images/grid.png" class="open_panel"></a>
+    </div>
+
+    <div data-role="main" class="ui-content" id="main">
+        <h2 class="sub_title">โอนสินค้าเข้าคลัง ISP</h2>
+        <hr class="hr">
+
+        <fieldset data-role="controlgroup">
+            <legend>เลือกสินค้าที่ต้องการโอนไปยังคลัง isp</legend>
+            <label for="item1">item1</label>
+            <input type="checkbox" name="isp_item_select" id="item1"  value="item1">
+            <label for="item2">item2</label>
+            <input type="checkbox" name="isp_item_select" id="item2" value="item2">
+            <label for="item3">item3</label>
+            <input type="checkbox" name="isp_item_select" id="item3" value="item3">
+        </fieldset>
+
+
+    </div>
+    <div data-role="footer" id="footer" data-enhance="false">
+        <div data-role="navbar">
+            <ul>
+                <li><a href="#transfer_isp" class="ui-btn-active ui-state-persist" data-icon="delete" id="footer-nav" data-transition="slidefade" data-direction="reverse">ยกเลิก</a></li>
+                <li><a href="#" class="ui-btn-active ui-state-persist" data-icon="check" id="footer-nav" data-transition="slidefade">โอน</a></li>
+            </ul>
+        </div>
+    </div>
+    <div data-role="panel" id="myPanel_tranisp1" data-display="overlay">
+        <h2>Overlay Panel</h2>
+        <hr>
+        <div id="tree" class="tree"></div>
+    </div>
+</div>
+<!--//////////////////////////////////////////////////////////// transfer_rtv ////////////////////////////////////////////////////////////////-->
+<div data-role="page" id="transfer_rtv">
+    <div data-role="none" id="header">
+        <a href="#myPanel_tranrtv" data-role="none"><img src="images/grid.png" class="open_panel"></a>
+    </div>
+
+    <div data-role="main" class="ui-content" id="main">
+        <h2 class="sub_title">โอนสินค้าคืน VENDER</h2>
+        <hr class="hr">
+        <form>
+            <p>เลือกคลังต้นทาง<select>
+                <option>wh1</option>
+                <option>wh2</option>
+                <option>wh3</option>
+                <option>car1</option>
+                <option>car2</option>
+                <option>car3</option>
+            </select></p>
+            <p>เลือก Vender<select>
+                <option>vender1</option>
+                <option>vender2</option>
+                <option>vender3</option>
+                <option>vender4</option>
+            </select></p>
+
+        </form>
+        <fieldset data-role="controlgroup">
+            <legend>summery</legend>
+            <p>...........................................</p>
+
+        </fieldset>
+    </div>
+    <div data-role="footer" id="footer" data-enhance="false">
+        <div data-role="navbar">
+            <ul>
+                <li><a href="#transfer" class="ui-btn-active ui-state-persist" data-icon="carat-l" id="footer-nav" data-transition="slidefade" data-direction="reverse">ย้อนกลับ</a></li>
+                <li><a href="#transfer_rtv_item" class="ui-btn-active ui-state-persist" data-icon="action" id="footer-nav" data-transition="slidefade">โอนสินค้า</a></li>
+                <li onclick="xxxx()"><a href="#" class="ui-btn-active ui-state-persist" data-icon="check" id="footer-nav">บันทึก</a></li>
+            </ul>
+        </div>
+    </div>
+    <div data-role="panel" id="myPanel_tranrtv" data-display="overlay">
+        <h2>Overlay Panel</h2>
+        <hr>
+        <div id="tree" class="tree"></div>
+    </div>
+</div>
+
+<!--//////////////////////////////////////////////////////////// transfer_rtv_item ////////////////////////////////////////////////////////////////-->
+<div data-role="page" id="transfer_rtv_item">
+    <div data-role="none" id="header">
+        <a href="#myPanel_tranrtv1" data-role="none"><img src="images/grid.png" class="open_panel"></a>
+    </div>
+
+    <div data-role="main" class="ui-content" id="main">
+        <h2 class="sub_title">โอนสินค้าคืน VENDER</h2>
+        <hr class="hr">
+        <form>
+
+            <input type="text" name="product5" placeholder="สินค้า">
+            <input type="number" name="num5" placeholder="จำนวน">
+            <input type="text" name="unit5" placeholder="หน่วยนับ">
+        </form>
+    </div>
+    <div data-role="footer" id="footer" data-enhance="false">
+        <div data-role="navbar">
+            <ul>
+                <li><a href="#transfer_rtv" class="ui-btn-active ui-state-persist" data-icon="delete" id="footer-nav" data-transition="slidefade" data-direction="reverse">ยกเลิก</a></li>
+                <li><a href="#" class="ui-btn-active ui-state-persist" data-icon="check" id="footer-nav" data-transition="slidefade">โอน</a></li>
+            </ul>
+        </div>
+    </div>
+    <div data-role="panel" id="myPanel_tranrtv1" data-display="overlay">
+        <h2>Overlay Panel</h2>
+        <hr>
+        <div id="tree" class="tree"></div>
+    </div>
+</div>
+<!--//////////////////////////////////////////////////////////// transfer_normal ////////////////////////////////////////////////////////////////-->
+<div data-role="page" id="transfer_normal">
+    <div data-role="none" id="header">
+        <a href="#myPanel_trannormal" data-role="none"><img src="images/grid.png" class="open_panel"></a>
+    </div>
+
+    <div data-role="main" class="ui-content" id="main">
+        <h2 class="sub_title">โอนสินค้าแบบปกติ</h2>
+
+        เลือกคลังต้นทาง :
+        <div id="wh_normaleup"></div>
+        เลือกชั้นเก็บต้นทาง :
+        <div id="shnormal_up"></div>
+        เลือกคลังปลายทาง :
+        <div id="wh_normaledown"></div>
+        เลือกชั้นเก็บปลายทาง :
+        <div id="shnormal_down"></div>
+    </div>
+    <div data-role="footer" id="footer" data-enhance="false">
+        <div data-role="navbar">
+            <ul>
+                <li><a href="#transfer" class="ui-btn-active ui-state-persist" data-icon="carat-l" id="footer-nav" data-transition="slidefade" data-direction="reverse">ย้อนกลับ</a></li>
+                <li onclick="wh_normal();"><a href="#" class="ui-btn-active ui-state-persist" data-icon="refresh" id="footer-nav" data-transition="slidefade">refresh</a></li>
+                <li onclick="transfer_normal();"><a href="#" class="ui-btn-active ui-state-persist" data-icon="action" id="footer-nav">โอนสินค้า</a></li>
+            </ul>
+        </div>
+    </div>
+    <div data-role="panel" id="myPanel_trannormal_from" data-display="overlay">
+        <h2>Overlay Panel</h2>
+        <hr>
+        <div id="tree" class="tree"></div>
+    </div>
+</div>
+<!--//////////////////////////////////////////////////////////// transfer_normal_item ////////////////////////////////////////////////////////////////-->
+<div data-role="page" id="transfer_normal_item">
+    <div data-role="none" id="header">
+        <a href="#myPanel_trannormal1" data-role="none"><img src="images/grid.png" class="open_panel"></a>
+    </div>
+
+    <div data-role="main" class="ui-content" id="main">
+        <h2 class="sub_title">โอนสินค้าแบบปกติ</h2>
+        <hr class="hr">
+
+        <p style="color:red; text-align:center">**แสกนสินค้าที่ต้องการโอน**</p>
+        <div id="item_show_n"></div>
+        <input type="number" name="amount_n_item" id="amount_n_item" placeholder="จำนวน">
+        <input type="hidden" id="stock_show_n">
+
+    </div>
+    <div data-role="footer" id="footer" data-enhance="false">
+        <div data-role="navbar">
+            <ul>
+                <li onclick="check_cancel_normal();"><a href="#" class="ui-btn-active ui-state-persist" data-icon="carat-l" id="footer-nav" data-transition="slidefade" data-direction="reverse">ย้อนกลับ</a></li>
+                <li onclick="submit_transfer_normal();"><a href="#" class="ui-btn-active ui-state-persist" data-icon="check" id="footer-nav">โอนสินค้า</a></li>
+            </ul>
+        </div>
+    </div>
+    <div data-role="panel" id="myPanel_trannormal1" data-display="overlay">
+        <h2>Overlay Panel</h2>
+        <hr>
+        <div id="tree" class="tree"></div>
+    </div>
+</div>
+
+<!--//////////////////////////////////////////////////////////// transfer_normal_detail ////////////////////////////////////////////////////////////////-->
+<div data-role="page" id="transfer_normal_detail">
+    <div data-role="none" id="header">
+        <a href="#myPanel_transfer_normal_detail" data-role="none"><img src="images/grid.png" class="open_panel"></a>
+    </div>
+
+    <div data-role="main" class="ui-content" id="main">
+        <h2 class="sub_title">โอนสินค้าแบบปกติ</h2>
+        <hr class="hr">
+
+        <p style="color:red;text-align:center;">**แสกนสินค้าที่ต้องการโอน**</p>
+        <div id="show_hdetail_tfn"></div>
+        <div id="show_detail_tfn"></div>
+    </div>
+    <div data-role="footer" id="footer" data-enhance="false">
+        <div data-role="navbar">
+            <ul>
+                <li><a href="#transfer_normal" class="ui-btn-active ui-state-persist" data-icon="carat-l" id="footer-nav" data-transition="slidefade" data-direction="reverse">ย้อนกลับ</a></li>
+                <li onclick="save_normal();"><a href="#" class="ui-btn-active ui-state-persist" data-icon="check" id="footer-nav">บันทึก</a></li>
+            </ul>
+        </div>
+    </div>
+    <div data-role="panel" id="myPanel_transfer_normal_detail" data-display="overlay">
+        <h2>Overlay Panel</h2>
+        <hr>
+        <div id="tree" class="tree"></div>
+    </div>
+</div>
+<!--//////////////////////////////////////////////////////////// Receive ////////////////////////////////////////////////////////////////-->
+<div data-role="page" id="receive">
+    <div data-role="none" id="header" >
+        <a href="#myPanel_receive"  data-role="none"><img src="images/grid.png" class="open_panel"></a>
+    </div>
+
+    <div  data-role="main" class="ui-content" id="main">
+        <h1 class="title">รับสินค้า</h1>
+        <a href="#" onclick="show_receive();" class="ui-btn ui-corner-all">แสดงใบรับสินค้า</a>
+        <div class="ui-field-contain">
+            <label for="search">Search Vender:</label>
+
+            <input type="search" name="search" id="search" placeholder="Search for Vender..." onkeyup="return searchpo();">
+            <!--<a href="#" class="ui-btn ui-corner-all" onclick="return searchpo();">ค้นหา</a>-->
+
+        </div>
+        <!--<select onchange="select_warehouse(this)">
+            <option value="s01">s01</option>
+            <option value="s02">s02</option>
+        </select>-->
+        <div id="polist" class="polist"></div>
+        <!--<a href="#setting" class="ui-btn ui-corner-all">setting</a>-->
+    </div>
+
+
+
+    <div data-role="footer" id="footer" data-enhance="false">
+        <div data-role="navbar">
+            <ul>
+                <li><a href="#pagetwo" class="ui-btn-active ui-state-persist" data-icon="home" id="footer-nav" data-transition="slidefade" data-direction="reverse">ย้อนกลับหน้าหลัก</a></li>
+
+            </ul>
+        </div>
+    </div>
+    <div data-role="panel" id="myPanel_receive" data-display="overlay">
+        <h2>Overlay Panel</h2><hr>
+
+        <hr>
+        <div id="tree" class="tree"></div>
+    </div>
+</div>
+<!--//////////////////////////////////////////////////////////// Receive item ////////////////////////////////////////////////////////////////-->
+
+<div data-role="page" id="receive_item">
+    <div data-role="none" id="header" >
+        <a href="#myPanel_receive_item"  data-role="none"><img src="images/grid.png" class="open_panel"></a>
+    </div>
+
+    <div  data-role="main" class="ui-content" id="main">
+        <form>
+
+
+            <div id="po_head"></div>
+            <hr class="hr">
+            <div id="po_detail"></div>
+            <br>
+
+
+
+        </form>
+
+    </div>
+
+
+
+    <div data-role="footer" id="footer" data-enhance="false">
+        <div data-role="navbar">
+            <ul>
+                <li><a href="#receive_listpo" class="ui-btn-active ui-state-persist" data-icon="carat-l" id="footer-nav" data-transition="slidefade" data-direction="reverse">ย้อนกลับ</a></li>
+                <li onclick="focus_search_item()"><a href="#receive_search" class="ui-btn-active ui-state-persist" data-icon="search" id="footer-nav" data-transition="slidefade">ค้นหาสินค้า</a></li>
+                <!--<li><a href="#" class="ui-btn-active ui-state-persist" data-icon="check" id="footer-nav">บันทึก</a></li>-->
+            </ul>
+        </div>
+    </div>
+    <div data-role="panel" id="myPanel_receive_item" data-display="overlay">
+        <h2>Overlay Panel</h2><hr>
+
+        <hr>
+        <div id="tree" class="tree"></div>
+    </div>
+</div>
+
+<!--//////////////////////////////////////////////////////////// Receive show ////////////////////////////////////////////////////////////////-->
+
+<div data-role="page" id="receive_show">
+    <div data-role="none" id="header" >
+        <a href="#myPanel_receive_show"  data-role="none"><img src="images/grid.png" class="open_panel"></a>
+    </div>
+
+    <div  data-role="main" class="ui-content" id="main">
+        <form>
+
+
+            <div id="rv_head"></div>
+            <hr class="hr">
+            <div id="rv_detail"></div>
+            <br>
+
+
+
+        </form>
+
+    </div>
+
+
+
+    <div data-role="footer" id="footer" data-enhance="false">
+        <div data-role="navbar">
+            <ul>
+                <li onclick="check_submit()"><a href="#" class="ui-btn-active ui-state-persist" data-icon="carat-l" id="footer-nav" data-transition="slidefade" data-direction="reverse">ย้อนกลับ</a></li>
+                <li onclick="focus_search_item()"><a href="#receive_search" class="ui-btn-active ui-state-persist" data-icon="search" id="footer-nav" data-transition="slidefade">ค้นหาสินค้า</a></li>
+                <li onclick="submit_receive()"><a href="#" class="ui-btn-active ui-state-persist" data-icon="check" id="footer-nav">บันทึก</a></li>
+
+            </ul>
+        </div>
+    </div>
+    <div data-role="panel" id="myPanel_receive_show" data-display="overlay">
+        <h2>Overlay Panel</h2><hr>
+
+        <hr>
+        <div id="tree" class="tree"></div>
+    </div>
+</div>
+
+<!--//////////////////////////////////////////////////////////// receive_listpo ////////////////////////////////////////////////////////////////-->
+
+<div data-role="page" id="receive_listpo">
+    <div data-role="none" id="header" >
+        <a href="#myPanel_receivepo_list"  data-role="none"><img src="images/grid.png" class="open_panel"></a>
+    </div>
+
+    <div  data-role="main" class="ui-content" id="main">
+        <form>
+
+
+            <div id="polist_head"></div>
+            <hr class="hr">
+            <div id="polist_detail"></div>
+            <br>
+
+
+
+        </form>
+
+    </div>
+
+
+
+    <div data-role="footer" id="footer" data-enhance="false">
+        <div data-role="navbar">
+            <ul>
+                <li><a href="#receive" class="ui-btn-active ui-state-persist" data-icon="carat-l" id="footer-nav" data-transition="slidefade" data-direction="reverse">ย้อนกลับ</a></li>
+                <!--<li onclick="submit_receive()"><a href="#" class="ui-btn-active ui-state-persist" data-icon="check" id="footer-nav">บันทึก</a></li>-->
+            </ul>
+        </div>
+    </div>
+    <div data-role="panel" id="myPanel_receivepo_list" data-display="overlay">
+        <h2>Overlay Panel</h2><hr>
+
+        <hr>
+        <div id="tree" class="tree"></div>
+    </div>
+</div>
+
+<!--////////////////////////////////////////////////////////////  Receive item No barcode////////////////////////////////////////////////////////////////-->
+<div data-role="page" id="receive_search">
+    <div data-role="none" id="header" >
+        <a href="#myPanel_receive_search"  data-role="none"><img src="images/grid.png" class="open_panel"></a>
+    </div>
+
+    <div  data-role="main" class="ui-content" id="main">
+
+        <h2 class="sub_title">item search</h2>
+        <label>ค้นหา item : <input type="text" name="receive_search_item" id="receive_search_item"></label>
+        <a href="#" class="ui-btn ui-icon-search ui-btn-icon-left ui-corner-all" onclick="search_receive()">ค้นหา</a>
+        <div id="show_search_item"></div>
+        <!--<a href="#" onclick="scan_receive()" class="ui-btn" id="scan_btn">Scan</a>
+        <a href="#" onclick="scan_cancel()" class="ui-btn" style="display:none;" id="scan_cancel">cancel</a>-->
+
+
+
+    </div>
+
+
+
+    <div data-role="footer" id="footer" data-enhance="false">
+        <div data-role="navbar">
+            <ul>
+                <li><a href="#receive_item" class="ui-btn-active ui-state-persist" data-icon="delete" id="footer-nav" data-transition="slidefade" data-direction="reverse">กลับ</a></li>
+            </ul>
+        </div>
+    </div>
+    <div data-role="panel" id="myPanel_receive_search" data-display="overlay">
+        <h2>Overlay Panel</h2><hr>
+
+        <hr>
+        <div id="tree" class="tree"></div>
+    </div>
+</div>
+
+<!--//////////////////////////////////////////////////////////// scan Receive item ////////////////////////////////////////////////////////////////-->
+<div data-role="page" id="receive_scan">
+    <div data-role="none" id="header" >
+        <a href="#myPanel_receive_scan"  data-role="none"><img src="images/grid.png" class="open_panel"></a>
+    </div>
+
+    <div  data-role="main" class="ui-content" id="main">
+
+        <h2 class="sub_title">scan item</h2>
+        <hr class="hr">
+        <div id="product_show"></div>
+        <label>กรอกจำนวน : <input type="number" name="receive1" id="amount_scanner"></label>
+        <!--<a href="#" onclick="scan_receive()" class="ui-btn" id="scan_btn">Scan</a>
+        <a href="#" onclick="scan_cancel()" class="ui-btn" style="display:none;" id="scan_cancel">cancel</a>-->
+
+
+
+    </div>
+
+
+
+    <div data-role="footer" id="footer" data-enhance="false">
+        <div data-role="navbar">
+            <ul>
+                <li onclick="check_back_receive()"><a href="#" class="ui-btn-active ui-state-persist" data-icon="delete" id="footer-nav" data-transition="slidefade" data-direction="reverse">กลับ</a></li>
+                <li onclick="submit_scan()"><a href="#" class="ui-btn-active ui-state-persist" data-icon="check" id="footer-nav" data-transition="slidefade" data-direction="reverse">บันทึก</a></li>
+            </ul>
+        </div>
+    </div>
+    <div data-role="panel" id="myPanel_receive_scan" data-display="overlay">
+        <h2>Overlay Panel</h2><hr>
+
+        <hr>
+        <div id="tree" class="tree"></div>
+    </div>
+</div>
+
+<!--//////////////////////////////////////////////////////////// scan Receive item edit ////////////////////////////////////////////////////////////////-->
+<div data-role="page" id="receive_scan_edit">
+    <div data-role="none" id="header" >
+        <a href="#myPanel_receive_scan_edit"  data-role="none"><img src="images/grid.png" class="open_panel"></a>
+    </div>
+
+    <div  data-role="main" class="ui-content" id="main">
+
+        <h2 class="sub_title">scan item</h2>
+        <hr class="hr">
+        <div id="product_show_e"></div>
+        <label>กรอกจำนวน : <input type="number" name="receive1" id="amount_scanner_e"></label>
+        <!--<a href="#" onclick="scan_receive()" class="ui-btn" id="scan_btn">Scan</a>
+        <a href="#" onclick="scan_cancel()" class="ui-btn" style="display:none;" id="scan_cancel">cancel</a>-->
+
+
+
+    </div>
+
+
+
+    <div data-role="footer" id="footer" data-enhance="false">
+        <div data-role="navbar">
+            <ul>
+                <li><a href="#receive_list_detail_edit" class="ui-btn-active ui-state-persist" data-icon="delete" id="footer-nav" data-transition="slidefade" data-direction="reverse">กลับ</a></li>
+                <li onclick="submit_scan_edit()"><a href="#" class="ui-btn-active ui-state-persist" data-icon="check" id="footer-nav" data-transition="slidefade" data-direction="reverse">บันทึก</a></li>
+            </ul>
+        </div>
+    </div>
+    <div data-role="panel" id="myPanel_receive_scan_edit" data-display="overlay">
+        <h2>Overlay Panel</h2><hr>
+
+        <hr>
+        <div id="tree" class="tree"></div>
+    </div>
+</div>
+
+<!--////////////////////////////////////////////////////////////  Receive list ////////////////////////////////////////////////////////////////-->
+<div data-role="page" id="receive_list">
+    <div data-role="none" id="header" >
+        <a href="#myPanel_receive_list"  data-role="none"><img src="images/grid.png" class="open_panel"></a>
+    </div>
+
+    <div  data-role="main" class="ui-content" id="main">
+
+
+        <h2 class="sub_title">Receive list</h2>
+        <input type="text" id="search_receive_doc" onkeyup="show_receive();">
+        <div id="list_receive"></div>
+
+    </div>
+
+
+
+    <div data-role="footer" id="footer" data-enhance="false">
+        <div data-role="navbar">
+            <ul>
+                <li><a href="#receive" class="ui-btn-active ui-state-persist" data-icon="delete" id="footer-nav" data-transition="slidefade" data-direction="reverse">กลับ</a></li>
+            </ul>
+        </div>
+    </div>
+    <div data-role="panel" id="myPanel_receive_list" data-display="overlay">
+        <h2>Overlay Panel</h2><hr>
+
+        <hr>
+        <div id="tree" class="tree"></div>
+    </div>
+</div>
+
+<!--////////////////////////////////////////////////////////////  Receive list detail ////////////////////////////////////////////////////////////////-->
+<div data-role="page" id="receive_list_detail">
+    <div data-role="none" id="header" >
+        <a href="#myPanel_receive_list_detail"  data-role="none"><img src="images/grid.png" class="open_panel"></a>
+    </div>
+
+    <div  data-role="main" class="ui-content" id="main">
+
+
+        <div id="rv_head1"></div>
+        <hr class="hr">
+        <div id="rv_detail1"></div>
+        <br>
+
+    </div>
+
+
+
+    <div data-role="footer" id="footer" data-enhance="false">
+        <div data-role="navbar">
+            <ul>
+                <li><a href="#receive_list" class="ui-btn-active ui-state-persist" data-icon="delete" id="footer-nav" data-transition="slidefade" data-direction="reverse">กลับ</a></li>
+            </ul>
+        </div>
+    </div>
+    <div data-role="panel" id="myPanel_receive_list_detail" data-display="overlay">
+        <h2>Overlay Panel</h2><hr>
+
+        <hr>
+        <div id="tree" class="tree"></div>
+    </div>
+</div>
+
+<!--////////////////////////////////////////////////////////////  Receive list detail edit ////////////////////////////////////////////////////////////////-->
+<div data-role="page" id="receive_list_detail_edit">
+    <div data-role="none" id="header" >
+        <a href="#myPanel_receive_list_detail_edit"  data-role="none"><img src="images/grid.png" class="open_panel"></a>
+    </div>
+
+    <div  data-role="main" class="ui-content" id="main">
+
+
+        <div id="rv_head_edit"></div>
+        <hr class="hr">
+        <div id="rv_detail_edit"></div>
+        <br>
+
+    </div>
+
+
+
+    <div data-role="footer" id="footer" data-enhance="false">
+        <div data-role="navbar">
+            <ul>
+                <li><a href="#receive_list" class="ui-btn-active ui-state-persist" data-icon="delete" id="footer-nav" data-transition="slidefade" data-direction="reverse">กลับ</a></li>
+            </ul>
+        </div>
+    </div>
+    <div data-role="panel" id="myPanel_receive_list_detail_edit" data-display="overlay">
+        <h2>Overlay Panel</h2><hr>
+
+        <hr>
+        <div id="tree" class="tree"></div>
+    </div>
+</div>
+<!--////////////////////////////////////////////////////////////page PR ////////////////////////////////////////////////////////////////-->
+
+<div data-role="page" id="pagepr">
+    <div data-role="none" id="header">
+        <a href="#myPanel_pr"  data-role="none"><img src="images/grid.png" class="open_panel"></a>
+    </div>
+
+    <div  data-role="main" class="ui-content" id="main">
+        <label style="font-size:20px;"><img src="images/PRicon.png"><b> รายการใบ PR</b></label><hr>
+        <input type="hidden" id="DocNo" name="docno">
+        <label><div class="ui-grid-c" style="text-align:center;">
+            <div class="ui-block-a">
+                <b>เลขที่ PR</b>
+            </div>
+            <div class="ui-block-b">
+                <b>วันที่ต้องการ</b>
+            </div>
+            <div class="ui-block-c">
+                <b>อายุใบ PR</b>
+            </div>
+            <div class="ui-block-d">
+                <b>สถานะ PR</b>
+            </div>
+        </div>
+        </label><hr>
+        <span id="prlist"></span>
+    </div>
+
+
+
+    <div data-role="footer" id="footer">
+        <div data-role="navbar">
+            <ul>
+                <li><a href="#pagetwo" class="ui-btn-active ui-state-persist" data-icon="home" id="footer-nav" data-transition="slidefade" data-direction="reverse">หน้าหลัก</a></li>
+                <li onclick="prlist()"><a href="#" class="ui-btn-active ui-icon-refresh" data-icon="home" id="footer-nav" data-transition="slidefade" data-direction="reverse">Refresh</a></li>
+                <li onclick="sumdetail()"><a href="#" class="ui-btn-active ui-state-persist" data-icon="plus" id="footer-nav" data-transition="slidefade">เพิ่มรายการ PR</a></li>
+            </ul>
+        </div>
+    </div>
+    <div data-role="panel" id="myPanel_pr" data-display="overlay">
+        <h2>Overlay Panel</h2>
+        <hr>
+        <div id="tree" class="tree"></div>
+    </div>
+</div>
+<!--////////////////////////////////////////////////////////////page PR ////////////////////////////////////////////////////////////////-->
+
+<!--////////////////////////////////////////////////////////////page PR list////////////////////////////////////////////////////////////////-->
+
+<div data-role="page" id="listpr">
+    <div data-role="none" id="header">
+        <a href="#myPanel_prlist"  data-role="none"><img src="images/grid.png" class="open_panel"></a>
+    </div>
+
+    <div  data-role="main" class="ui-content" id="main" style="margin-bottom:0;">
+        <label style="clear:both;"><div id="title"><b>เลขที่ PR</b></div><div id="LDocNo"></div></label>
+        <label style="clear:both;"><div id="title"><b>วันที่ต้องการ</b></div><div id="wantdate"></div></label>
+        <label style="clear:both;"><div id="title"><b>สถานะ</b></div><div id="status"></div></label>
+        <label style="clear:both;"><div id="title"><b>อายุใบ PR</b></div><div id="diffdate"></div></label>
+        <label style="clear:both;"><div id="title"><b>เจ้าหนี้</b></div><div id="vendorID"></div></label>
+        <label style="clear:both;"> <div class="ui-grid-a" >
+            <div class="ui-block-a" id="title">
+                <b>ชื่อเจ้าหนี้</b>
+            </div>
+            <div class="ui-block-b">
+                <span id="vendorName"></span>
+            </div>
+        </div></label>
+
+
+        <hr>
+        <div id="prldetail">** ไม่มีข้อมูล **</div>
+
+    </div>
+
+
+
+    <div data-role="footer" id="footer"  data-position="fixed">
+        <div data-role="navbar">
+            <ul>
+                <li><a href="#pagepr" class="ui-btn-active ui-state-persist" data-icon="carat-l" id="footer-nav" data-transition="slidefade" data-direction="reverse">ย้อนกลับ</a></li>
+            </ul>
+        </div>
+    </div>
+    <div data-role="panel" id="myPanel_prlist" data-display="overlay">
+        <h2>Overlay Panel</h2>
+        <hr>
+        <div id="tree" class="tree"></div>
+    </div>
+</div>
+<!--////////////////////////////////////////////////////////////page PR list ////////////////////////////////////////////////////////////////-->
+
+
+<!--////////////////////////////////////////////////////////////page PR plus ////////////////////////////////////////////////////////////////-->
+<div data-role="page" id="pluspr">
+    <div data-role="none" id="header">
+        <a href="#myPanel_pluspr"  data-role="none"><img src="images/grid.png" class="open_panel"></a>
+    </div>
+    <div  data-role="main" class="ui-content" id="main" style="margin-bottom:20%;">
+
+        <label style="font-size:20px;"><span id="titelpr"></span><br><img src="images/newpr.png" width="22"> รายการสินค้า</label>
+        <label style="border-bottom:1px solid black; padding:2%;"><div class="ui-grid-b" style="text-align:center;">
+            <b><div class="ui-block-a" style="width:30%">
+                รหัสสินค้า
+            </div>
+                <div class="ui-block-b" style="width:50%">
+                    ชื่อสินค้า
+                </div>
+                <div class="ui-block-c" style="width:20%">
+                    จำนวน
+                </div></b>
+        </div>
+        </label>
+        <div id="sumitem"></div>
+        <label style="border-bottom:1px dashed black; padding:2%; color:red; text-align:center">
+            <h5>** SCANBARCODE เพื่อเพิ่มรายการสินค้า **</h5>
+        </label>
+        <label id="defdate1">
+            วันที่ต้องการ :
+            <select id="defdate" class="whselect" name="date">
+                <option value="1">1 วัน</option>
+                <option value="3">3 วัน</option>
+                <option value="5">5 วัน</option>
+                <option value="7">7 วัน</option>
+            </select>
+        </label>
+        <label>
+            ความเร่งด่วน : <button onclick="change()" class="btn btn-login" data-role="none" id="paility" value="0"><img src="images/notquick.png" id="ims" width="20">&nbsp;<span id="detail">ไม่ด่วน</span></button>
+        </label>
+        <label>
+            หมายเหตุ : <textarea rows="5" id="discript" cols="20"></textarea>
+        </label>
+
+        <label>
+            เจ้าหนี้ :
+            <div id="apCodevendor"><a href="#vendor" data-rel="popup" class="ui-btn ui-icon-search ui-btn-icon-right">-- กรุณาเลือกเจ้าหนี้ --</a></div>
+            <input type="hidden" id="apCodeven">
+
+            <div data-role="popup" id="vendor">
+                <div data-role="header">
+                    <h1>ค้นหาเจ้าหนี้</h1>
+                </div>
+
+                <div data-role="main" class="ui-content">
+                    <input type="text" id="vender" onkeyup="return searchapcode()">
+                    <span id="nameven">-- ชื่อเจ้าหนี้ --</span>
+                </div>
+
+                <div data-role="footer">
+                    <h1>Inventory V0.1</h1>
+                </div>
+            </div>
+
+        </label>
+
+    </div>
+
+    <div data-role="footer" id="footer">
+        <div data-role="navbar">
+            <ul>
+                <li onclick="backdetail()"><a href="#" class="ui-btn-active ui-state-persist" data-icon="delete" id="footer-nav" data-transition="slidefade" data-direction="reverse">ยกเลิก</a></li>
+                <li onclick="pluspr()"><a href="#" class="ui-btn-active ui-state-persist" data-icon="check" id="footer-nav">บันทึก</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div data-role="panel" id="myPanel_pluspr" data-display="overlay">
+        <h2>Overlay Panel</h2>
+        <hr>
+        <div id="tree" class="tree"></div>
+    </div>
+</div>
+<!--////////////////////////////////////////////////////////////page PR plus ////////////////////////////////////////////////////////////////-->
+<!--////////////////////////////////////////////////////////////page PR item ////////////////////////////////////////////////////////////////-->
+<div data-role="page" id="additem">
+    <div data-role="none" id="header">
+        <a href="#myPanel_additem"  data-role="none"><img src="images/grid.png" class="open_panel"></a>
+    </div>
+    <div  data-role="main" class="ui-content" id="main">
+
+        <div id="itemdetail" style="display:none;">
+            <input type="hidden" id="DocNo" name="docno">
+            <input type="hidden" name="Noitem" placeholder="รหัสสินค้า" style="color:#000;" id="noitems">
+            <label><b>รหัสสินค้า : </b><span id="Tnoitem">scanbacode สินค้าด้วย</span></label>
+
+            <input type="hidden" name="Nameitem" placeholder="ชื่อสินค้า" readonly style="color:#000;" id="nameitems">
+            <label><b>ชื่อสินค้า : </b><span id="TNameitem"></span></label>
+
+            <input type="hidden" name="grade" placeholder="เกรด" readonly style="color:#000;" id="gradeitem">
+            <label><b>เกรด : </b><span id="Tgrade"></span></label>
+
+            <label><input type="number" name="countitem" placeholder="จำนวน" min="1" max="1000" id="citem" autofocus></label>
+
+            <input type="hidden" name="unit" placeholder="หน่วยนับ" id="units" readonly>
+            <label><b>หน่วยนับ : </b><span id="Tunit"></span></label>
+        </div>
+
+    </div>
+    <div data-role="footer" id="footer">
+        <div data-role="navbar">
+            <ul>
+                <li ><a href="#pluspr" class="ui-btn-active ui-state-persist" data-icon="delete" id="footer-nav" data-transition="slidefade" data-direction="reverse">ยกเลิก</a></li>
+                <li onclick="clicksubmit()"><a href="#" class="ui-btn-active ui-state-persist" data-icon="check" id="footer-nav">ตกลง</a></li>
+            </ul>
+        </div>
+    </div>
+    <div data-role="panel" id="myPanel_additem" data-display="overlay">
+        <h2>Overlay Panel</h2>
+        <hr>
+        <div id="tree" class="tree"></div>
+    </div>
+
+</div>
+<!--////////////////////////////////////////////////////////////page PR item ////////////////////////////////////////////////////////////////-->
+
+
+<!--////////////////////////////////////////////////////////////page Count stock ////////////////////////////////////////////////////////////////-->
+<div data-role="page" id="stock">
+    <div data-role="none" id="header">
+        <a href="#myPanel_stock"  data-role="none"><img src="images/grid.png" class="open_panel"></a>
+    </div>
+
+    <div  data-role="main" class="ui-content" id="main">
+
+        <label style="font-size:24px;"><img src="images/stock1.png" width="32"><b>ระบบนับสต๊อกสินค้า</b></label>
+        <label id="shelves1"><img src="images/barcoder-icon.png">
+            <b><h3><p>SCANBARCODE</p></h3>
+                <h4>
+                    <p>คลังสินค้า</p>
+                </h4>
+            </b></label>
+
+    </div>
+
+
+    <div data-role="footer" id="footer">
+        <div data-role="navbar">
+            <ul>
+                <li><a href="#pagetwo" class="ui-btn-active ui-state-persist" data-icon="home" id="footer-nav" data-transition="slidefade" data-direction="reverse">หน้าหลัก</a></li>
+            </ul>
+        </div>
+    </div>
+    <div data-role="panel" id="myPanel_stock" data-display="overlay">
+        <h2>Overlay Panel</h2>
+        <hr>
+        <div id="tree" class="tree"></div>
+    </div>
+</div>
+<!--////////////////////////////////////////////////////////////page Count stock ////////////////////////////////////////////////////////////////-->
+
+<!--////////////////////////////////////////////////////////////page stock detail ////////////////////////////////////////////////////////////////-->
+<div data-role="page" id="countstock">
+    <div data-role="none" id="header">
+        <a href="#myPanel_countstock"  data-role="none"><img src="images/grid.png" class="open_panel"></a>
+    </div>
+
+    <div  data-role="main" class="ui-content" id="main">
+
+        <label style="font-size:24px;"><img src="images/stock1.png" width="32"><b>ระบบนับสต๊อกสินค้า</b></label>
+        <label style="font-size:18px; padding-left:5%;"><img src="images/is.png">&nbsp; : <span id="docIS"></span></label>
+        <input type="hidden" id="valdocIS">
+        <label style="font-size:18px; padding-left:5%;"><img src="images/warehouse.png">&nbsp;<span id="wh"></span><input type="hidden" id="wh"></label><hr>
+        <input type="hidden" id="whvalue">
+        <label style="text-align:center; vertical-align: middle; border-bottom:1px solid gray;">
+            <div class="ui-grid-d">
+                <div class="ui-block-a">
+                    <b>รหัสสินค้า</b>
+                </div>
+                <div class="ui-block-b">
+                    <b>ชื่อสินค้า</b>
+                </div>
+                <div class="ui-block-c">
+                    <b>ชั้นเก็บ</b>
+                </div>
+                <div class="ui-block-d">
+                    <b>ผลต่าง</b>
+                </div>
+                <div class="ui-block-e">
+                    <b>สถานะ</b>
+                </div>
+            </div>
+        </label>
+
+        <div id="csdetail"></div>
+
+    </div>
+
+
+    <div data-role="footer" id="footer">
+        <div data-role="navbar">
+            <ul>
+                <li onclick="savedata()"><a href="#" class="ui-btn-active ui-state-persist" data-icon="check" id="footer-nav">บันทึก</a></li>
+                <li><a href="#shelves" class="ui-btn-active ui-state-persist" data-icon="search" id="footer-nav" data-transition="slidefade">ตรวจนับสินค้า</a></li>
+            </ul>
+        </div>
+    </div>
+    <div data-role="panel" id="myPanel_countstock" data-display="overlay">
+        <h2>Overlay Panel</h2>
+        <hr>
+        <div id="tree" class="tree"></div>
+    </div>
+</div>
+<!--////////////////////////////////////////////////////////////page stock detail ////////////////////////////////////////////////////////////////-->
+
+<!--////////////////////////////////////////////////////////////page stock shelves ////////////////////////////////////////////////////////////////-->
+<div data-role="page" id="shelves">
+    <div data-role="none" id="header">
+        <a href="#myPanel_shelves"  data-role="none"><img src="images/grid.png" class="open_panel"></a>
+    </div>
+
+    <div  data-role="main" class="ui-content" id="main">
+
+        <label style="font-size:24px;"><img src="images/stock1.png" width="32"><b>ระบบนับสต๊อกสินค้า</b></label>
+        <label id="shelves1"><img src="images/barcoder-icon.png">
+            <b><h3><p>SCANBARCODE</p></h3>
+                <h4>
+                    <p>ชั้นเก็บสินค้า</p>
+                </h4>
+            </b></label>
+
+    </div>
+
+
+    <div data-role="footer" id="footer">
+        <div data-role="navbar">
+            <ul>
+                <li onclick="backstock()"><a href="#" class="ui-btn-active ui-state-persist" data-icon="delete" id="footer-nav" data-transition="slidefade" data-direction="reverse">ยกเลิก</a></li>
+            </ul>
+        </div>
+    </div>
+    <div data-role="panel" id="myPanel_shelves" data-display="overlay">
+        <h2>Overlay Panel</h2>
+        <hr>
+        <div id="tree" class="tree"></div>
+    </div>
+</div>
+<!--////////////////////////////////////////////////////////////page stock shelves ////////////////////////////////////////////////////////////////-->
+
+<!--////////////////////////////////////////////////////////////page stock countitem ////////////////////////////////////////////////////////////////-->
+<div data-role="page" id="countitem">
+    <div data-role="none" id="header">
+        <a href="#myPanel_countitem"  data-role="none"><img src="images/grid.png" class="open_panel"></a>
+    </div>
+
+    <div  data-role="main" class="ui-content" id="main">
+
+        <label style="font-size:24px;"><img src="images/stock1.png" width="32"><b>ระบบนับสต๊อกสินค้า</b></label><hr>
+        <div id="itemcnt" style="margin-bottom: 20%;">
+            <label>ชั้นเก็บ : <span id="CTshelves"></span>
+                <input type="hidden" name="shelves" readonly id="shel" size="50">
+            </label>
+            <label>รหัสสินค้า : <span id="CTitemno"></span>
+                <input type="hidden" name="itemno" readonly id="itemNo">
+            </label>
+            <label>ชื่อสินค้า : <span id="CTitemname"></span>
+                <input type="hidden" name="itemname" readonly id="itemsName">
+            </label>
+            <label>จำนวน :
+                <input type="number" name="count" id="counts">
+            </label>
+            <label>หน่วยนับ : <span id="CTunit"></span>
+                <input type="hidden" name="unit" id="Cunit">
+            </label>
+
+        </div>
+    </div>
+
+
+    <div data-role="footer" id="footer">
+        <div data-role="navbar">
+            <ul id="count1">
+                <li><a href="#shelves" class="ui-btn-active ui-state-persist" data-icon="delete" id="footer-nav" data-transition="slidefade" data-direction="reverse">ยกเลิก</a></li>
+            </ul>
+            <ul id="count2">
+                <li><a href="#shelves" class="ui-btn-active ui-state-persist" data-icon="delete" id="footer-nav" data-transition="slidefade" data-direction="reverse">ยกเลิก</a></li>
+                <li onclick="savestock()" ><a href="#" class="ui-btn-active ui-state-persist" data-icon="edit" id="footer-nav">บันทึก</a></li>
+            </ul>
+        </div>
+    </div>
+    <div data-role="panel" id="myPanel_countitem" data-display="overlay">
+        <h2>Overlay Panel</h2>
+        <hr>
+        <div id="tree" class="tree"></div>
+    </div>
+</div>
+<!--////////////////////////////////////////////////////////////page stock countitem ////////////////////////////////////////////////////////////////-->
+
+<!--////////////////////////////////////////////////////////////page search item ////////////////////////////////////////////////////////////////-->
+<div data-role="page" id="searchitem">
+    <div data-role="none" id="header">
+        <a href="#myPanel_countitem"  data-role="none"><img src="images/grid.png" class="open_panel"></a>
+    </div>
+
+    <div  data-role="main" class="ui-content" id="main">
+
+        <label style="font-size:24px; margin-bottom:0;"><img src="images/stock1.png" width="32"><b>ระบบตรวจสอบสินค้า</b></label><hr>
+
+        <label id="whtitle" style="border-bottom:1px dotted gray; padding-bottom:2%;">
+            <div id="bt-wh" style="padding-bottom:2%;"><font color="red">SCANBARCODE WAREHOUSE</font></div>
+            <span id="de-wh"></span>
+        </label>
+        <input type="hidden" id="valwh">
+        <div id="itemdtail" style="border-bottom:1px dotted gray; padding-bottom:2%;">
+            <div id="bt-item"><font color="red">SCANBARCODE ITEM</font></div>
+            <span id="de-item"></span>
+
+        </div>
+
+    </div>
+
+    <div data-role="footer" id="footer">
+        <div data-role="navbar">
+            <ul id="count2">
+                <li><a href="#pagetwo" class="ui-btn-active ui-state-persist" data-icon="home" id="footer-nav" data-transition="slidefade" data-direction="reverse">HOME</a></li>
+                <li onclick="rewh()" ><a href="#" class="ui-btn-active ui-state-persist" data-icon="refresh" id="footer-nav">refresh</a></li>
+            </ul>
+        </div>
+    </div>
+    <div data-role="panel" id="myPanel_countitem" data-display="overlay">
+        <h2>Overlay Panel</h2>
+        <hr>
+        <div id="tree" class="tree"></div>
+    </div>
+</div>
+<!--////////////////////////////////////////////////////////////page search item////////////////////////////////////////////////////////////////-->
+
+<!--//////////////////////////////////////////////////////////////// setting ////////////////////////////////////////////////////////////////-->
+<div data-role="page" id="setting">
+    <div data-role="none" id="header">
+        <a href="#myPanel_setting"  data-role="none"><img src="images/grid.png" class="open_panel"></a>
+    </div>
+
+    <div  data-role="main" class="ui-content" id="main">
+        <form name="setting" >
+            <label for="server">server</label>
+            <input type="text" name="server" id="server" placeholder="apiserver">
+            <input type="hidden" id="apiserver_s" value="http://s01xp.dyndns.org:8080/">
+
+            <label for="server_nava">server nava work</label>
+            <input type="text" name="server_nava" id="server_nava" placeholder="apiserver_nava">
+            <input type="hidden" id="apiserver_nava_s" value="http://api.nava.work:8000/">
+
+
+            <label for="apilogin">api login</label>
+            <input type="text" name="apilogin" id="apilogin">
+            <input type="hidden" id="apilogin_s" value="users/login">
+            <p>====================================== Receive ======================================</p>
+            <label for="api1">api search vender</label>
+            <input type="text" name="api1" id="api1">
+            <input type="hidden" id="api1_s" value="NPReceiveWs/rc/vendor">
+
+            <label for="api2">api list PO</label>
+            <input type="text" name="api2" id="api2">
+            <input type="hidden" id="api2_s" value="NPReceiveWs/rc/vendorpo">
+
+            <label for="api3">api PO detail</label>
+            <input type="text" name="api3" id="api3">
+            <input type="hidden" id="api3_s" value="NPReceiveWs/rc/podetails">
+
+            <label for="api4">api insert header receive</label>
+            <input type="text" name="api4" id="api4">
+            <input type="hidden" id="api4_s" value="NPReceiveWs/rc/insert">
+
+            <label for="api5">api add item receive</label>
+            <input type="text" name="api5" id="api5">
+            <input type="hidden" id="api5_s" value="NPReceiveWs/rc/manageitem">
+
+            <label for="api6">api search item receive</label>
+            <input type="text" name="api6" id="api6">
+            <input type="hidden" id="api6_s" value="NPReceiveWs/rc/item">
+
+            <label for="api7">api search receive</label>
+            <input type="text" name="api7" id="api7">
+            <input type="hidden" id="api7_s" value="NPReceiveWs/rc/search">
+
+            <label for="api13">api list receive</label>
+            <input type="text" name="api13" id="api13">
+            <input type="hidden" id="api13_s" value="NPReceiveWs/rc/listdocno">
+
+            <label for="api14">api delete receive doc</label>
+            <input type="text" name="api14" id="api14">
+            <input type="hidden" id="api14_s" value="NPReceiveWs/rc/cancel">
+            <p>====================================== PR ======================================</p>
+            <label for="api8">api PR List</label>
+            <input type="text" name="api8" id="api8">
+            <input type="hidden" id="api8_s" value="NPInventoryWs/V1/pr/prList">
+
+            <label for="api9">api PR Detail</label>
+            <input type="text" name="api9" id="api9">
+            <input type="hidden" id="api9_s" value="NPInventoryWs/V1/pr/prDetail">
+
+            <label for="api10">api insertPR</label>
+            <input type="text" name="api10" id="api10">
+            <input type="hidden" id="api10_s" value="NPInventoryWs/V1/pr/insertPR">
+
+            <label for="api11">api PRGenDocno</label>
+            <input type="text" name="api11" id="api11">
+            <input type="hidden" id="api11_s" value="NPInventoryWs/V1/inven/genDocno">
+
+            <label for="api12">api search item pr</label>
+            <input type="text" name="api12" id="api12">
+            <input type="hidden" id="api12_s" value="NPInventoryWs/V1/inven/searchItem">
+
+            <label for="api15">api list receive</label>
+            <input type="text" name="api15" id="api15">
+            <input type="hidden" id="api15_s" value="NPInventoryWs/V1/pr/cancelPR">
+
+            <label for="api16">api delete receive doc</label>
+            <input type="text" name="api16" id="api16">
+            <input type="hidden" id="api16_s" value="NPInventoryWs/V1/pr/searchVendor">
+
+            <label for="api33">api updatePR</label>
+            <input type="text" name="api33" id="api33">
+            <input type="hidden" id="api33_s" value="NPInventoryWs/V1/pr/updatePR">
+
+            <p>====================================== stock count ======================================</p>
+            <label for="api17">api searchWH</label>
+            <input type="text" name="api17" id="api17">
+            <input type="hidden" id="api17_s" value="NPInventoryWs/V1/is/searchWH">
+
+            <label for="api18">api searchShelf</label>
+            <input type="text" name="api18" id="api18">
+            <input type="hidden" id="api18_s" value="NPInventoryWs/V1/is/searchShelf">
+
+            <label for="api19">api confirmIS</label>
+            <input type="text" name="api19" id="api19">
+            <input type="hidden" id="api19_s" value="NPInventoryWs/V1/is/confirmIS">
+
+            <!--<label for="api20">api xxx</label>
+            <input type="text" name="api20" id="api20">
+            <input type="hidden" id="api20_s" value="NPInventoryWs/V1/is/xxx">
+
+            <label for="api21">api xxx</label>
+            <input type="text" name="api21" id="api21">
+            <input type="hidden" id="api21_s" value="NPInventoryWs/V1/is/xxx">
+
+            <label for="api22">api xxx</label>
+            <input type="text" name="api22" id="api22">
+            <input type="hidden" id="api22_s" value="NPInventoryWs/V1/is/xxx">
+
+            <label for="api23">api xxx</label>
+            <input type="text" name="api23" id="api23">
+            <input type="hidden" id="api23_s" value="NPInventoryWs/V1/is/xxx">
+
+
+            <label for="api24">api xxx</label>
+            <input type="text" name="api24" id="api24">
+            <input type="hidden" id="api24_s" value="NPInventoryWs/V1/is/xxx">-->
+            <p>====================================== transfer ======================================</p>
+            <label for="api25">api search warehouse</label>
+            <input type="text" name="api25" id="api25">
+            <input type="hidden" id="api25_s" value="NPReceiveWs/trn/searchwarehouse">
+
+            <label for="api26">api search shelf</label>
+            <input type="text" name="api26" id="api26">
+            <input type="hidden" id="api26_s" value="NPReceiveWs/trn/searchshelf">
+
+            <label for="api27">api search item</label>
+            <input type="text" name="api27" id="api27">
+            <input type="hidden" id="api27_s" value="NPReceiveWs/trn/searchitemstock">
+
+            <label for="api28">api insert transfer</label>
+            <input type="text" name="api28" id="api28">
+            <input type="hidden" id="api28_s" value="NPReceiveWs/trn/insert">
+
+            <label for="api29">api manage item</label>
+            <input type="text" name="api29" id="api29">
+            <input type="hidden" id="api29_s" value="NPReceiveWs/trn/manageitem">
+
+            <label for="api30">api search transfer doc</label>
+            <input type="text" name="api30" id="api30">
+            <input type="hidden" id="api30_s" value="NPReceiveWs/trn/search">
+
+            <label for="api31">api search transfer detail</label>
+            <input type="text" name="api31" id="api31">
+            <input type="hidden" id="api31_s" value="NPReceiveWs/trn/searchdetails">
+
+
+            <label for="api32">api cancel receive doc</label>
+            <input type="text" name="api32" id="api32">
+            <input type="hidden" id="api32_s" value="NPReceiveWs/trn/cancel">
+            <p>====================================== item profile ======================================</p>
+
+            <label for="api34">api itemProfile</label>
+            <input type="text" name="api34" id="api34">
+            <input type="hidden" id="api34_s" value="NPInventoryWs/V1/it/itemProfile">
+
+        </form>
+
+    </div>
+    <div data-role="footer" id="footer">
+        <div data-role="navbar">
+            <ul>
+                <li><a href="#pagetwo" class="ui-btn-active ui-state-persist" data-icon="home" id="footer-nav" data-transition="slidefade" data-direction="reverse">หน้าหลัก</a></li>
+                <li onclick="set_api()"><a href="#" id="set" class="ui-btn-active ui-state-persist" data-icon="check" >บันทึก</a></li>
+            </ul>
+        </div>
+
+
+    </div>
+    <div data-role="panel" id="myPanel_setting" data-display="overlay">
+        <h2>Overlay Panel</h2>
+        <hr>
+        <div id="tree" class="tree"></div>
+    </div>
+</div>
+<!--//////////////////////////////////////////////////////////////// setting ////////////////////////////////////////////////////////////////-->
+
+
+
+
+<script type="text/javascript" src="cordova.js"></script>
+<script type="text/javascript" src="js/index.js"></script>
+<script type="text/javascript" src="js/ng-cordova.min.js" ></script>
+
+<script src="js/jquery-1.11.3.js"></script>
+<script src="js/jquery.mobile-1.4.5.min.js"></script>
+
+<script src="js/login.js"></script>
+<script src="js/permission.js"></script>
+<script src="js/setting.js"></script>
+<script src="js/fun_pr.js"></script>
+<script src="js/fun_cs.js"></script>
+<script src="js/inven.js"></script>
+<script src="js/fun_searchitem.js"></script>
+<script src="js/search_vender.js"></script>
+<script src="js/function_transfer.js"></script>
+<script src="js/function_transfer_n.js"></script>
+<script src="js/function_transfer_dmg.js"></script>
+<script type="text/javascript">app.initialize();</script>
+<script src="js/hotkey.js"></script>
+<script src="js/menutree.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="js/bootstrap-treeview.min.js"></script>
+<script src="js/hotkey_pr.js"></script>
+<script src="js/hotkey_cs.js"></script>
+<script src="js/alertify.js"></script>
+</body>
+</html>
